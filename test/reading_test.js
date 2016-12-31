@@ -16,7 +16,7 @@ describe('Reading users our of the database', () => {
         })
     })
 
-    it('finds all users with the name of joe', (done) => {
+    it('should find all users with the name of joe', (done) => {
         User.find({ name: 'Joe'})
             .then((usersReturned) =>{
                 console.log(usersReturned);
@@ -27,4 +27,15 @@ describe('Reading users our of the database', () => {
                 done();
             });
     });
+
+    it('should find a user with a particular ID', (done) => {
+        //"find a user with joe's id"
+        User.findOne({ _id: joe._id})
+            .then(function(userReturned){
+                assert(userReturned.name === 'Joe');
+                done();
+            })
+    })
+
+
 });
