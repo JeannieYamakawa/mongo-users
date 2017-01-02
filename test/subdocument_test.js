@@ -48,8 +48,34 @@ describe('Subdocuments', () => {
             .then((userQueried) => {
                 // console.log(userQueried, 'userQueried');
                 assert(userQueried.posts[0].title=== "Joe's new post");
+                assert(userQueried.posts[0].content === "Content of Joe's new post")
                 done();
             })
 
+    });
+
+    it('can remove an existing subdocument, or an existing post from an existing user', (done) => {
+        const joe = new User(
+            {name: 'Joe',
+            posts: [
+                {title: "Joe's first post",
+                content: "Content of Joe's first post"},
+                {title: "Joe's second post",
+                content: "Content of Joe's second post"}
+        ]
+    });
+        joe.save()
+            .then( () => User.findOne({name: 'Joe'}))
+            .then( (userReturned) => {
+                ///remove() is a method provided by Mongoose.
+                userReturned.posts[1].remove();
+                // it does NOT implicitly save joe's user record now that the post is removed.
+                return userReturned.save()
+            })
+            .then( () => User.findOne({name: 'Joe'}))
+            .then( (userReturned) => {
+                assert(userReturned.posts.length === 1);
+                done();
+            });
     });
 });
