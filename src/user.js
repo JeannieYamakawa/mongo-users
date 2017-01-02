@@ -3,7 +3,12 @@ const Schema = mongoose.Schema;
 
 
 const UserSchema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        //this error message that gets set to user.
+        required: [true, 'Name is required.'],
+
+    },
     postCount: Number
 });
 
