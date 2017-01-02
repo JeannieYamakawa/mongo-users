@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const PostSchema = require("./src/post")
+const PostSchema = require("./post")
 const Schema = mongoose.Schema;
 
 //user model referred to as a "document"
