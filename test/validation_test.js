@@ -26,4 +26,16 @@ describe ('Validating records', () => {
         assert(message==='Name must be longer than 2 characters.')
 
     });
+
+    it('disallows an invalid record from being saved to DB', (done) => {
+        const user = new User({name: 'Al'});
+        user.save()
+            .catch((validationResult) =>{
+                const {message} = validationResult.errors.name;
+
+                assert(message === 'Name must be longer than 2 characters.');
+                done();
+            });
+    });
+    
 });
