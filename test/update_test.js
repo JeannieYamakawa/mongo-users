@@ -5,7 +5,7 @@ describe('Updating records', () => {
     let joe;
 
     beforeEach((done) => {
-        joe = new User({name:"Joe"});
+        joe = new User({name:"Joe", postCount: 0});
         joe.save()
             .then(()=>{
                 done();
@@ -69,5 +69,15 @@ describe('Updating records', () => {
         assertName(User.findByIdAndUpdate(joe._id, {name: 'Alex'}), done)
     });
 
-    
+
+    it('A user who meets criteria can have his/her post count incremented by 1', (done) => {
+        //server sends instructions and increments by one instead of just updating. See Mongo docs for many other options.
+        User.update({name: 'Joe'}, {$inc: {postCount: 10}})
+            .then( () => User.findOne({name: 'Joe'}))
+            .then( (returnedUser) => {
+                assert(returnedUser.postCount ===10);
+                done();
+            });
+    });
+
 });
