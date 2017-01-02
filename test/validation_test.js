@@ -10,6 +10,7 @@ describe ('Validating records', () => {
         // console.log(validationResult);
         //the message is stored on the error object
 
+        //ES6 for message property from location to right of = sign
         const {message} = validationResult.errors.name;
 
         assert(message === 'Name is required.');
@@ -17,8 +18,12 @@ describe ('Validating records', () => {
     });
 
 
-    it('requires a username to be included in request', () => {
+    it('requires a username longer than 2 characters', () => {
+        const user = new User({name: 'Al'});
+        const validationResult = user.validateSync();
+        const {message} = validationResult.errors.name;
 
+        assert(message==='Name must be longer than 2 characters.')
 
     });
 });
